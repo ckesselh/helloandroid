@@ -1,0 +1,3 @@
+[submodule "contrib/neko"]
+	path = contrib/neko
+	url = git://github.com/sattvik/neko.git
