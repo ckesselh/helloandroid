@@ -8,13 +8,13 @@
 
 (defn -onCreate
   "Called when the activity is initialised."
-  [activity bundle]
+  [^android.app.Activity activity bundle]
   (doto activity
     (.superOnCreate bundle)
     (.setContentView R$layout/main))
   
-  (let [button (.findViewById activity R$id/goButton)
-        textfield (.findViewById activity R$id/nameField)]
+  (let [^android.widget.Button button (.findViewById activity R$id/goButton)
+        ^android.widget.EditText textfield (.findViewById activity R$id/nameField)]
     (.setOnClickListener button 
       (proxy [View$OnClickListener] []
         (onClick [view]

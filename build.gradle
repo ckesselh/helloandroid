@@ -1,0 +1,50 @@
+buildscript {
+    repositories {
+        mavenCentral()
+	mavenLocal()
+        mavenRepo name: 'clojars', url: 'http://clojars.org/repo'    
+    }
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-android-plugin:1.1.1-SNAPSHOT'
+        classpath 'clojuresque:clojuresque:1.4.4'       
+    }
+}
+
+apply plugin: 'android'
+apply plugin: 'clojure'
+repositories {
+    mavenCentral()
+    mavenLocal()
+    mavenRepo name: 'clojars', url: 'http://clojars.org/repo'    
+}
+
+// Sets the package group & version
+group = 'lu.kreios'
+version = "1.0.0"
+
+// Some Clojure-specific configuration
+compileClojure.dependsOn compileJava
+warnOnReflection = true
+aotCompile = true
+
+dependencies {
+    compile 'org.clojure:clojure:1.3.0'
+}
+
+// Configure the filtering of resources with properties from the Gradle's project scope
+processResources {
+    expand (project.properties)
+}
+
+// Configure a dedicated debug build
+task configureDebug << {
+    jar.classifier = "debug"
+}
+// Configure a dedicated release build
+task configureRelease << {
+    proguard.enabled = true
+}
+
+androidEmulatorStart {
+    avdName = 'Android_2.3.3'
+}
