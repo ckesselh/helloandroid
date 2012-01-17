@@ -29,6 +29,8 @@ aotCompile = true
 
 dependencies {
     compile 'org.clojure:clojure:1.3.0'
+    development 'swank-clojure:swank-clojure:1.3.4'
+    development 'clj-stacktrace:clj-stacktrace:0.2.4'
 }
 
 // Configure the filtering of resources with properties from the Gradle's project scope
@@ -45,6 +47,20 @@ task configureRelease << {
     proguard.enabled = true
 }
 
+// Swank integration
+task runSwank(type: clojuresque.ClojureExec) {
+    classpath = project.files(
+        project.sourceSets.main.clojure.srcDirs,
+        project.sourceSets.main.classesDir,
+        project.sourceSets.test.clojure.srcDirs,
+        project.configurations.testRuntime,
+        project.configurations.development
+    )
+    main = "swank.swank/start-repl"
+    args = []
+}
+
+// The name of the emulated Android device to use
 androidEmulatorStart {
     avdName = 'Android_2.3.3'
 }
