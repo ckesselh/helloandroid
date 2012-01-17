@@ -48,13 +48,14 @@ task configureRelease << {
 }
 
 // Swank integration
-task runSwank(type: clojuresque.ClojureExec) {
+task runSwank(type: clojuresque.ClojureExec, dependsOn: compileJava) {
     classpath = project.files(
         project.sourceSets.main.clojure.srcDirs,
         project.sourceSets.main.classesDir,
         project.sourceSets.test.clojure.srcDirs,
         project.configurations.testRuntime,
-        project.configurations.development
+        project.configurations.development,
+        project.ant.references['android.target.classpath'].list()
     )
     main = "swank.swank/start-repl"
     args = []
